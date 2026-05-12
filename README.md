@@ -35,7 +35,7 @@
 
 三、设计说明
 
-1) 架构设计
+• 架构设计
 严格遵循三层架构（体验层→业务流程层→系统层），各层职责分离，符合要求，具体设计
 如下：
 1. 体验层（experience.xml）：负责前置校验和数据转换，包括Token权限校验（避免未授权访
@@ -45,7 +45,7 @@
 3. 系统层（system.xml）：模拟外部服务调用，包括商品服务（GET /products/{sku}）、支付服务
 （POST /payments），并实现重试机制（最多2次重试，间隔500ms），同时处理简单的错误分
 级，确保服务调用稳定性。
-2) 核心功能实现
+• 核心功能实现
 项目实现了大部分要求的功能，具体如下：
 1. 接口路由：通过api.xml实现订单、商品、支付相关接口的路由，支持POST、GET、PUT、
  DELETE四种请求方式，404路径返回统一错误提示。
@@ -68,6 +68,7 @@
 • 支付接口：POST /payments（处理支付）
 
 五.学习资料
+
 B站:https://www.bilibili.com/video/BV1Te411r72K?spm_id_from=333.788.videopod.sections&vd_source=8f87152b9b128ba4046b708f213a39f5
 Mule:https://docs.mulesoft.com/mule-runtime/latest/mule-app-dev-hellomule
 
