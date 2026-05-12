@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<!-- 权限校验 -->
+    <sub-flow name="auth-validate">
+        <logger message="Auth validate" level="INFO"/>
+        <choice>
+            <when expression="#[attributes.headers.authorization == null]">
+                <set-payload value='{"code":"401","message":"Unauthorized"}'/>
+            </when>
+        </choice>
+    </sub-flow>
+
+    <!-- 订单校验 -->
+    <sub-flow name="order-validate">
+        <logger message="Order validate" level="INFO"/>
+        <choice>
+            <when expression="#[isEmpty(payload.orderId)]">
+                <set-payload value='{"code":"400","message":"orderId required"}'/>
+            </when>
+            <when expression="#[isEmpty(payload.items)]">
+                <set-payload value='{"code":"400","message":"items required"}'/>
+            </when>
+        </choice>
+    </sub-flow>
+
+    <!-- 商品校验 -->
+    <sub-flow name="product-validate">
+        <logger message="Product validate" level="INFO"/>
+        <choice>
+            <when expression="#[isEmpty(payload.sku)]">
+                <set-payload value='{"code":"400","message":"sku required"}'/>
+            </when>
+        </choice>
+    </sub-flow>
+
+    <!-- 🔥 修复版：安全计算总价，不会空值报错 -->
+    <sub-flow name="order-transform">
+        <logger message="Transform order" level="INFO"/>
+        <set-payload value="#[%dw 2.0
+output application/json
+---
+{
+    orderId: payload.orderId,
+    customer: payload.customer,
+    items: payload.items,
+    totalAmount: sum(payload.items map ($.price default 0) * ($.qty default 0)),
+    status: 'PAID'
+}]"/>
+    </sub-flow>
+</mule>

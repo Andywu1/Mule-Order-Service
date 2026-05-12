@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<!-- 订单 -->
+    <sub-flow name="order-create">
+        <flow-ref name="order-validate"/>
+        <flow-ref name="call-product-retry"/>
+        <flow-ref name="call-payment-retry"/>
+        <flow-ref name="order-transform"/>
+        <flow-ref name="deliver-downstream"/>
+        <set-payload value='{"code":"201","message":"Order created","orderId":"ORD-1001"}'/>
+    </sub-flow>
+
+    <sub-flow name="order-get">
+        <set-payload value='{"code":"200","orderId":"ORD-1001","status":"PAID"}'/>
+    </sub-flow>
+
+    <sub-flow name="order-update">
+        <flow-ref name="order-validate"/>
+        <set-payload value='{"code":"200","message":"Order updated"}'/>
+    </sub-flow>
+
+    <sub-flow name="order-delete">
+        <set-payload value='{"code":"200","message":"Order deleted"}'/>
+    </sub-flow>
+
+    <!-- 商品 -->
+    <sub-flow name="product-get">
+        <set-payload value='{"code":"200","sku":"SKU-001","name":"Test Product","price":29.9}'/>
+    </sub-flow>
+
+    <sub-flow name="product-create">
+        <flow-ref name="product-validate"/>
+        <set-payload value='{"code":"201","message":"Product created"}'/>
+    </sub-flow>
+
+    <!-- 支付 -->
+    <sub-flow name="payment-process">
+        <set-payload value='{"code":"200","message":"Payment success"}'/>
+    </sub-flow>
+	</mule>
