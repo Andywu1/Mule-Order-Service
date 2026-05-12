@@ -1,47 +1,36 @@
-# ------------------------------------------------------------------------------ #
-# Java defaults (https://github.com/github/gitignore/blob/master/Java.gitignore) #
-# ------------------------------------------------------------------------------ #
-*.class
+# ==========================================
+# Mule & Anypoint Studio 自动生成文件
+# ==========================================
+.mule/
+bin/
+target/
+build/
+tmp/
+temp/
 
-# Package Files #
-*.jar
-*.war
-*.ear
-
-# ------------------------------------------------------------------------------------------- #
-# Eclipse-specific (https://github.com/github/gitignore/blob/master/Global/Eclipse.gitignore) #
-# ------------------------------------------------------------------------------------------- #
-*.pydevproject
-.metadata
-bin/**
-tmp/**
-tmp/**/*
-*.tmp
-*.bak
-*.swp
-*~.nib
-local.properties
-.settings/
-.loadpath
+# 项目配置（本地环境）
+.muleProject
 .project
 .classpath
+.settings/
+.apt_generated
+.springBeans
+.sts4-cache
 
-# External tool builders
-.externalToolBuilders/
+# 日志文件
+*.log
+logs/
+*.log.*
 
-# Locally stored "Eclipse launch configurations"
-*.launch
+# 编译缓存
+*.lst
+*.markers
 
-# CDT-specific
-.cproject
+# Mule 运行时临时文件
+*.mule
+*.jar.versions
+*.deploy
 
-# PDT-specific
-.buildpath
-
-# --------------- #
-# Studio-specific #
-# --------------- #
-target/
-.mule/
-.DS_Store
-velocity.log
+# MUnit 测试报告
+munit-reports/
+*.munit-result
